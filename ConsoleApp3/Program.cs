@@ -20,11 +20,12 @@ namespace ConsoleApplication1
 
             public void executeLongTransaction()
             {
-                Console.WriteLine("Starting a long running transaction.");
-                using (SqlConnection _con = new SqlConnection("Server=.;Database=Test_SocialCee_Trunk;Trusted_Connection=True;Max Pool Size=500;MultipleActiveResultSets=True;Connect Timeout=30;Application Name=ConsoleApplication1.vshost"))
+                try
                 {
-                    try
+                    Console.WriteLine("Starting a long running transaction.");
+                    using (SqlConnection _con = new SqlConnection("Server=.;Database=Test_SocialCee_Trunk;Trusted_Connection=True;Max Pool Size=500;MultipleActiveResultSets=True;Connect Timeout=30;Application Name=ConsoleApplication1.vshost"))
                     {
+
                         SqlTransaction trans = null;
                         _con.Open();
                         trans = _con.BeginTransaction();
@@ -36,12 +37,13 @@ namespace ConsoleApplication1
                         cmd.Transaction.Commit();
 
                         Console.WriteLine("Finished the long running transaction.");
+
                     }
-                    catch (ThreadAbortException tae)
-                    {
-                        Console.WriteLine("Thread - caught ThreadAbortException in executeLongTransaction - resetting.");
-                        Console.WriteLine("Exception message: {0}", tae.Message);
-                    }
+                }
+                catch (ThreadAbortException tae)
+                {
+                    Console.WriteLine("Thread - caught ThreadAbortException in executeLongTransaction - resetting.");
+                    Console.WriteLine("Exception message: {0}", tae.Message);
                 }
             }
         }
@@ -65,7 +67,7 @@ namespace ConsoleApplication1
         {
             using (var connectionHolder = new ConnectionHolder())
             {
-                for (var i = 0; i<40; i++)
+                for (var i = 0; i < 70; i++)
                 {
                     var thread = new Thread(connectionHolder.executeLongTransaction);
                     thread.Start();

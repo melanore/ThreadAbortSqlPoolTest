@@ -21,7 +21,7 @@ namespace ConsoleApplication1
             public void executeLongTransaction()
             {
                 Console.WriteLine("Starting a long running transaction.");
-                using (SqlConnection _con = new SqlConnection("Server=.;Database=Test_SocialCee_Trunk;Trusted_Connection=True;Max Pool Size=200;MultipleActiveResultSets=True;Connect Timeout=30;Application Name=ConsoleApplication1.vshost"))
+                using (SqlConnection _con = new SqlConnection("Server=.;Database=Test_SocialCee_Trunk;Trusted_Connection=True;Max Pool Size=500;MultipleActiveResultSets=True;Connect Timeout=30;Application Name=ConsoleApplication1.vshost"))
                 {
                     try
                     {
@@ -65,7 +65,7 @@ namespace ConsoleApplication1
         {
             using (var connectionHolder = new ConnectionHolder())
             {
-                for (var i = 0; i<100; i++)
+                for (var i = 0; i<40; i++)
                 {
                     var thread = new Thread(connectionHolder.executeLongTransaction);
                     thread.Start();
